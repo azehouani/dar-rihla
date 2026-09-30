@@ -1,0 +1,88 @@
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, BedDouble, Maximize, Users } from "lucide-react";
+import type { Room } from "@/types";
+
+interface RoomCardProps {
+  room: Room;
+  /** Marks the first image as a priority load (use for above-the-fold cards). */
+  priority?: boolean;
+}
+
+/**
+ * Reusable room card used on both the Home page (featured rooms) and the
+ * Rooms page. Add new rooms in data/rooms.ts — no changes needed here.
+ */
+export function RoomCard({ room, priority = false }: RoomCardProps) {
+  const cover = room.images[0];
+
+  return (
+    <article
+      id={room.slug}
+      className="group flex scroll-mt-28 flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-charcoal/5 transition-shadow duration-300 hover:shadow-xl"
+    >
+      <div className="relative aspect-[4/3] overflow-hidden">
+        <Image
+          src={cover.src}
+          alt={cover.alt}
+          fill
+          priority={priority}
+          sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        />
+        {room.view ? (
+          <span className="absolute left-4 top-4 rounded-full bg-cream/90 px-3 py-1 text-xs font-medium tracking-wide text-charcoal backdrop-blur-sm">
+            {room.view}
+          </span>
+        ) : null}
+      </div>
+
+      <div className="flex flex-1 flex-col p-6">
+        <h3 className="font-serif text-2xl text-charcoal">{room.name}</h3>
+        <p className="mt-2 text-sm leading-relaxed text-ink/75">
+          {room.shortDescription}
+        </p>
+
+        <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs text-ink/70">
+          <li className="flex items-center gap-1.5">
+            <Users size={15} className="text-clay" aria-hidden />
+            {room.capacity} pers.
+          </li>
+          <li className="flex items-center gap-1.5">
+            <BedDouble size={15} className="text-clay" aria-hidden />
+            {room.bedType}
+          </li>
+          {room.sizeSqm ? (
+            <li className="flex items-center gap-1.5">
+              <Maximize size={15} className="text-clay" aria-hidden />
+              {room.sizeSqm} m²
+            </li>
+          ) : null}
+        </ul>
+
+        <ul className="mt-4 flex flex-wrap gap-2">
+          {room.facilities.slice(0, 3).map((facility) => (
+            <li
+              key={facility}
+              className="rounded-full bg-sand px-3 py-1 text-[11px] font-medium text-ink/80"
+            >
+              {facility}
+            </li>
+          ))}
+        </ul>
+
+        <Link
+          href={`/rooms#${room.slug}`}
+          className="mt-6 inline-flex items-center gap-2 self-start text-sm font-medium text-clay transition-colors hover:text-clay-dark"
+        >
+          Découvrir
+          <ArrowRight
+            size={16}
+            aria-hidden
+            className="transition-transform duration-300 group-hover:translate-x-1"
+          />
+        </Link>
+      </div>
+    </article>
+  );
+}

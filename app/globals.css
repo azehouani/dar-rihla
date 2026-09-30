@@ -1,26 +1,83 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Warm, sophisticated riad palette */
+  --color-cream: #faf6ef;
+  --color-sand: #f0e6d6;
+  --color-sand-dark: #e2d3b8;
+  --color-clay: #b36a45;
+  --color-clay-dark: #8f5335;
+  --color-brass: #a9863f;
+  --color-charcoal: #211c17;
+  --color-charcoal-soft: #33291f;
+  --color-ink: #3a332b;
+
+  --background: var(--color-cream);
+  --foreground: var(--color-charcoal);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-cream: var(--color-cream);
+  --color-sand: var(--color-sand);
+  --color-sand-dark: var(--color-sand-dark);
+  --color-clay: var(--color-clay);
+  --color-clay-dark: var(--color-clay-dark);
+  --color-brass: var(--color-brass);
+  --color-charcoal: var(--color-charcoal);
+  --color-charcoal-soft: var(--color-charcoal-soft);
+  --color-ink: var(--color-ink);
+
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-display);
+
+  --animate-fade-in: fade-in 0.8s ease-out both;
+  --animate-fade-in-up: fade-in-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes fade-in {
+  from {
+    opacity: 0;
   }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: var(--color-clay);
+  color: var(--color-cream);
+}
+
+/* Visible, elegant focus states for accessibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-clay);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
